@@ -4,17 +4,19 @@ import telegram
 from telegram.ext import CommandHandler, Updater
 from pytube import YouTube
 from moviepy.editor import *
+from Token_Api import APItoken
 
 # Set the logging level to display errors
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-# Specify bot token and enable update with user messages
-updater = Updater(token='YOUR_TELEGRAM_BOT_TOKEN', use_context=True)
+# Specify HTTP bot token and enable update with user messages
+os.environ['TELEGRAM_TOKEN'] = APItoken
+updater = Updater(token=os.environ.get('TELEGRAM_TOKEN'), use_context=True)
 dispatcher = updater.dispatcher
 
 
 def start(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text="Привет! Я бот для скачивания аудиодорожки из видео с YouTube. Просто отправь мне ссылку на видео, и я отправлю тебе аудиофайл.")
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Hello! I am a bot for downloading an audio track from a YouTube video. Just send me the link to the video and I'll send you the audio file.")
 
 def download(update, context):
     url = context.args[0]
